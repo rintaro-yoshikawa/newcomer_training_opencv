@@ -1,13 +1,4 @@
 /**********************************************************************
-   File    task_2.cpp
-   Author  abe taiki (19w)
-   Environment    ROS_inigo
-   OS       Ubuntu 14.04
-   StartDay 2019/4/11
-**********************************************************************/
-
-
-/**********************************************************************
    Include Libraries
 **********************************************************************/
 #include <ros/ros.h>
@@ -82,16 +73,15 @@ void imageCb(const sensor_msgs::ImageConstPtr& rgb_image){
 }
 
 
-
 /**********************************************************************
   画像処理関数(課題２) : グレースケール変換をして表示してみよう(やり方は課題１とほぼ同じだよ
 **********************************************************************/
-void image_processing(const cv::Mat color_image){
+void image_processing(const cv::Mat color_image) {
   cv::Mat display_color;
   display_color = color_image.clone();
 
   cv::Mat gray_image;
-  cvtColor(display_color, gray_image, CV_RGB2GRAY);
+  cvtColor(display_color, gray_image, cv::COLOR_RGB2GRAY);
   cv::imshow("display_gray", gray_image);
   cv::waitKey(10);
 

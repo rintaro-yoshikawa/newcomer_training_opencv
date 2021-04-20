@@ -1,16 +1,7 @@
 /**********************************************************************
-   File    task_1_answer.cpp
-   Author  abe taiki (19w)
-   Environment    ROS_inigo
-   OS       Ubuntu 14.04
-   StartDay 2019/4/11
-**********************************************************************/
-
-
-/**********************************************************************
    Include Libraries
 **********************************************************************/
-#include <opencv/cv.hpp>
+#include <opencv/cv.hpp>/* #include <opencv2/opencv.hpp> */
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
@@ -41,10 +32,13 @@ int main(int argc, char** argv){
   /* imageという変数を作る */
   cv::Mat image;
 
-
   /* sample.pngを読み込む(pathは各自の環境に合わせてください) */
-  image = cv::imread("/home/taiki/taiki-project/catkin_ws/src/newcomer_training_opencv/image_data/sample.png",CV_LOAD_IMAGE_COLOR);
+  image = cv::imread("/home/t-rin/catkin_ws/src/newcomer_training_opencv/image_data/sample.png", cv::IMREAD_COLOR);
 
+  if (image.empty()) {
+    std::cout << "Failed to read image" << std::endl;
+    return 1; 
+  }
 
   /* 生データを表示してみよう */
   cv::namedWindow("display_color",cv::WINDOW_AUTOSIZE);
@@ -53,14 +47,14 @@ int main(int argc, char** argv){
   /* グレースケール変換をしてみよう */
   cv::Mat gray_image;
   cv::namedWindow("display_gray",cv::WINDOW_AUTOSIZE);
-  cvtColor(image, gray_image, CV_RGB2GRAY);
+  cvtColor(image, gray_image, cv::COLOR_RGB2GRAY);
   cv::imshow("display_gray", gray_image);
 
   /* 二値化をしてみよう */
-  cv::Mat nichi_image;
-  cv::namedWindow("display_nichi", cv::WINDOW_AUTOSIZE);
-  threshold(gray_image, nichi_image, 100, 255, cv::THRESH_BINARY);
-  cv::imshow("display_nichi", nichi_image);
+  cv::Mat binary_image;
+  cv::namedWindow("display_binary", cv::WINDOW_AUTOSIZE);
+  threshold(gray_image, binary_image, 100, 255, cv::THRESH_BINARY);
+  cv::imshow("display_binary", binary_image);
 
   /* エッジ検出をしてみよう */
   cv::Mat edge_image;
@@ -69,15 +63,15 @@ int main(int argc, char** argv){
   cv::imshow("display_edge", edge_image);
 
   /* 画像の大きさを取得してみよう(行と列) */
-  std::cout << image.cols << std::endl;
-  std::cout << image.rows << std::endl;
+  std::cout << "width: " << image.cols << std::endl;
+  std::cout << "height: " << image.rows << std::endl;
 
   /* ちょっと応用　緑色抽出*/
   cv::Mat hsv_image;
   cv::Mat mask_green;
   cv::Mat output_hsv;
-  cv::namedWindow("display_hsv",cv::WINDOW_AUTOSIZE);
-  cvtColor(image,hsv_image,CV_BGR2HSV);
+  cv::namedWindow("display_hsv", cv::WINDOW_AUTOSIZE);
+  cvtColor(image,hsv_image, cv::COLOR_BGR2HSV);
   // cv::imshow("display_hsv",hsv_image);
   int green_hue_max = 75;
   int green_hue_min = 70;
